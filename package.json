@@ -1,0 +1,28 @@
+{
+  "name": "urbubot",
+  "version": "2.0.0",
+  "description": "Official bot of baron nashor, created by @big hindo#1612",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"What?\" && exit 1"
+  },
+  "author": "@big hindo#1612",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "discord.js-commando": "^0.10.0",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
+    "save": "^2.3.3",
+    "snekfetch": "^4.0.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheOnlyOne4040/XyloBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheOnlyOne4040/XyloBot/issues"
+  },
+  "homepage": "https://github.com/TheOnlyOne4040/XyloBot#readme"
+}
