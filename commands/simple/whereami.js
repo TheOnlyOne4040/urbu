@@ -9,7 +9,8 @@ class WhereAmICommand extends Commando.Command
             name: 'whereami',
             group: 'simple',
             memberName: 'whereami',
-            description: 'Shows server information'
+            description: 'Shows server information',
+            guildOnly: true
         });
     }
 

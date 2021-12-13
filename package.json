@@ -1,5 +1,5 @@
 {
-  "name": "urbubot",
+  "name": "urbu",
   "version": "2.0.0",
   "description": "Official bot of baron nashor, created by @big hindo#1612",
   "main": "index.js",
@@ -19,10 +19,10 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheOnlyOne4040/XyloBot.git"
+    "url": "git+https://github.com/TheOnlyOne4040/urbu.git"
   },
   "bugs": {
-    "url": "https://github.com/TheOnlyOne4040/XyloBot/issues"
+    "url": "https://github.com/TheOnlyOne4040/urbu/issues"
   },
-  "homepage": "https://github.com/TheOnlyOne4040/XyloBot#readme"
+  "homepage": "https://github.com/TheOnlyOne4040/urbu#readme"
 }
