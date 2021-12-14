@@ -1,20 +1,12 @@
-const Commando = require("discord.js-commando")
 const Discord = require('discord.js');
 
-class JoinCommand extends Commando.Command
-{
-    constructor(client)
-    {
-        super(client,{
-            name: 'join',
-            group: 'moderation',
-            memberName: 'join',
-            alias: ['j', 'jn'],
-            description: 'Joins the voice channel.',
-            guildOnly: true
-        });
-    }
-
+module.exports ={
+    name: 'join',
+    group: 'moderation',
+    memberName: 'join',
+    alias: ['j', 'jn'],
+    description: 'Joins the voice channel.',
+    guildOnly: true,
     async run(message, args)
     {
         /*if(message.client.queues.has(message.guild))
@@ -41,5 +33,3 @@ class JoinCommand extends Commando.Command
         }})
     }
 }
-
-module.exports = JoinCommand

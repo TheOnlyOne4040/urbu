@@ -1,20 +1,12 @@
-const Commando = require('discord.js-commando');
 const discord = require('discord.js');
 
-class WhereAmICommand extends Commando.Command
-{
-    constructor(client)
-    {
-        super(client,{
-            name: 'whereami',
-            group: 'simple',
-            memberName: 'whereami',
-            description: 'Shows server information',
-            guildOnly: true
-        });
-    }
-
-    async run(message, args)
+module.exports ={
+    name: 'whereami',
+    group: 'simple',
+    memberName: 'whereami',
+    description: 'Shows server information',
+    guildOnly: true,
+    async execute(message, args)
     {
         var sInfo = new discord.RichEmbed()
             .setTitle(message.guild.name)
@@ -31,5 +23,3 @@ class WhereAmICommand extends Commando.Command
         message.channel.sendEmbed(sInfo);
     }
 }
-
-module.exports = WhereAmICommand;

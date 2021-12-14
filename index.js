@@ -1,28 +1,44 @@
 const discord = require('discord.js');
-const Commando = require('discord.js-commando');
+const filesystem = require('fs');
 const config = require("./super secret stuff/config.json");
-const bot = new Commando.Client({commandPrefix: config.prefix});
+const bot = new discord.Client;
 
-bot.registry.registerGroup('simple', 'Simple');
-bot.registry.registerGroup('moderation', 'Moderation');
-bot.registry.registerGroup('audio', 'Audio');
-bot.registry.registerDefaults();
-bot.registry.registerCommandsIn(__dirname + '/commands');
+//bot.registry.registerGroup('simple', 'Simple');
+//bot.registry.registerGroup('moderation', 'Moderation');
+//bot.registry.registerGroup('audio', 'Audio');
+//bot.registry.registerDefaults();
+//bot.registry.registerCommandsIn(__dirname + '/commands');
 
-// FOR LATER
-// bot.commands = new Discord.Collection();
+bot.commands = new discord.Collection();
 
-// const commandFolders = filesystem.readdirSync("./commands");
+const commandFolders = filesystem.readdirSync("./commands");
 
-// for (const folder of commandFolders) {
-//   const commandFiles = filesystem
-//     .readdirSync(`./commands/${folder}`)
-//     .filter((file) => file.endsWith(".js"));
-//   for (const file of commandFiles) {
-//     const command = require(`./commands/${folder}/${file}`);
-//     bot.commands.set(command.name, command);
-//   }
-// }
+for (const folder of commandFolders) 
+{
+    const commandFiles = filesystem
+        .readdirSync(`./commands/${folder}`)
+        .filter((file) => file.endsWith(".js"));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${folder}/${file}`);
+        bot.commands.set(command.name, command);
+        console.log(command)
+    }
+}
+
+const eventFiles = filesystem
+    .readdirSync("./events")
+    .filter((file) => file.endsWith(".js"));
+for (const file of eventFiles) 
+{
+    const event = require(`./events/${file}`);
+    if (event.once) 
+    {
+        client.once(event.name, (...args) => event.execute(...args, client));
+    } else 
+    {
+        client.on(event.name, (...args) => event.execute(...args, client));
+    }
+}
 
 /*bot.on('message', function(message){
     if(message.content == 'Jointest')
@@ -43,7 +59,8 @@ bot.on("guildMemberAdd", function(member)
     member.send("Don't forget to check the server rules!");
 });
 
-bot.on('ready',function(){
+bot.on('ready',function()
+{
     console.log("Urbu is all lubed up and ready to go. Currently Present in " + bot.guilds.size + ' servers!')
     bot.user.setActivity('Present in ' + bot.guilds.size + ' servers');
 })

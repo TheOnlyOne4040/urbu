@@ -1,19 +1,13 @@
-const Commando = require("discord.js-commando")
 const Discord = require('discord.js');
 
-class PurgeCommand extends Commando.Command
-{
-    constructor(client)
-    {
-        super(client,{
-            name: 'purge',
-            group: 'moderation',
-            memberName: 'purge',
-            description: 'Deletes the previous X messages.',
-            guildOnly: true
-        });
-    }
-    async run(message, args)
+module.exports ={
+
+    name: 'purge',
+    group: 'moderation',
+    memberName: 'purge',
+    description: 'Deletes the previous X messages.',
+    guildOnly: true,
+    async execute(message, args)
     {
         const amount = parseInt(args.split(" ")[0]) + 1;
         if (isNaN(amount))
@@ -36,8 +30,6 @@ class PurgeCommand extends Commando.Command
         })})
     }
 }
-
-module.exports = PurgeCommand
 
 // `<>` <- arguments, [] <- programmatically chosen values, ()
 // dynamic help command

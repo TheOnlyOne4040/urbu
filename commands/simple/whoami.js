@@ -1,19 +1,11 @@
-const Commando = require('discord.js-commando');
 const discord = require('discord.js');
 
-class WhoAmICommand extends Commando.Command
-{
-    constructor(client)
-    {
-        super(client,{
-            name: 'whoami',
-            group: 'simple',
-            memberName: 'whoami',
-            description: 'Shows information about the sender'
-        });
-    }
-
-    async run(message, args)
+module.exports ={
+    name: 'whoami',
+    group: 'simple',
+    memberName: 'whoami',
+    description: 'Shows information about the sender',
+    async execute(message, args)
     {
         var sInfo = new discord.RichEmbed()
             .setTitle(message.author.username)
@@ -28,5 +20,3 @@ class WhoAmICommand extends Commando.Command
         message.channel.sendEmbed(sInfo);
     }
 }
-
-module.exports = WhoAmICommand;
