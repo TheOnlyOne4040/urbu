@@ -33,10 +33,10 @@ for (const file of eventFiles)
     const event = require(`./events/${file}`);
     if (event.once) 
     {
-        client.once(event.name, (...args) => event.execute(...args, client));
+        bot.once(event.name, (...args) => event.execute(...args, bot));
     } else 
     {
-        client.on(event.name, (...args) => event.execute(...args, client));
+        bot.on(event.name, (...args) => event.execute(...args, bot));
     }
 }
 

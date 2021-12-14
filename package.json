@@ -9,6 +9,7 @@
   "author": "@big hindo#1612",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.0.0",
     "discord.js": "^11.4.2",
     "discord.js-commando": "^0.10.0",
     "ffmpeg": "0.0.4",

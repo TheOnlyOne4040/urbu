@@ -7,7 +7,7 @@ module.exports ={
     alias: ['j', 'jn'],
     description: 'Joins the voice channel.',
     guildOnly: true,
-    async run(message, args)
+    async execute(message, args)
     {
         /*if(message.client.queues.has(message.guild))
         {

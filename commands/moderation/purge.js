@@ -6,6 +6,7 @@ module.exports ={
     group: 'moderation',
     memberName: 'purge',
     description: 'Deletes the previous X messages.',
+    usage: '<quantity>',
     guildOnly: true,
     async execute(message, args)
     {
