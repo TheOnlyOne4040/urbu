@@ -3,13 +3,8 @@ const filesystem = require('fs');
 const config = require("./super secret stuff/config.json");
 const bot = new discord.Client;
 
-//bot.registry.registerGroup('simple', 'Simple');
-//bot.registry.registerGroup('moderation', 'Moderation');
-//bot.registry.registerGroup('audio', 'Audio');
-//bot.registry.registerDefaults();
-//bot.registry.registerCommandsIn(__dirname + '/commands');
-
 bot.commands = new discord.Collection();
+bot.queues = new discord.Collection();
 
 const commandFolders = filesystem.readdirSync("./commands");
 
@@ -17,7 +12,7 @@ for (const folder of commandFolders)
 {
     const commandFiles = filesystem
         .readdirSync(`./commands/${folder}`)
-        .filter((file) => file.endsWith(".js"));
+        .filter((f) => f.endsWith(".js"));
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
         bot.commands.set(command.name, command);
@@ -38,6 +33,7 @@ for (const file of eventFiles)
     {
         bot.on(event.name, (...args) => event.execute(...args, bot));
     }
+    console.log(event)
 }
 
 /*bot.on('message', function(message){
@@ -63,6 +59,7 @@ bot.on('ready',function()
 {
     console.log("Urbu is all lubed up and ready to go. Currently Present in " + bot.guilds.size + ' servers!')
     bot.user.setActivity('Present in ' + bot.guilds.size + ' servers');
+    console.log(bot.guilds.map(r => `${r.name} - ${r.id}`));
 })
 
 bot.login(config.token);

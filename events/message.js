@@ -1,5 +1,11 @@
-const { prefix } = require("../super secret stuff/config.json")
+//const { prefix } = require("../super secret stuff/config.json")
 const discord = require("discord.js");
+const prefixes = require("../obj/prefixes.json");
+
+/*function getPrefix(message, bot)
+{
+    with prefixes
+}*/
 
 module.exports ={
     name: "message",
@@ -19,6 +25,7 @@ module.exports ={
             message.channel.send("help command not yet implemented")
         }
 
+        let prefix = prefixes.find(guild => guild.id == message.guild.id)
         if (!message.content.startsWith(prefix)) return console.log;
 
         const args = message.content.slice(prefix.length).trim().split(/ +/);

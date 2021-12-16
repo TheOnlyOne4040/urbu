@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 
 module.exports ={
-    name: 'join',
+    name: 'leave',
     group: 'audio',
-    memberName: 'join',
-    alias: ['j', 'jn'],
-    description: 'Joins the voice channel.',
+    memberName: 'leave',
+    alias: ['lv', 'disconnect', 'dc'],
+    description: 'Leaves the voice channel.',
     guildOnly: true,
     async execute(message, args)
     {
@@ -17,19 +17,28 @@ module.exports ={
                 description: 'I\'m already connected to a voice channel!'
             }})
         }*/
-        if(!message.member.voiceChannelID)
+        if(!message.guild.me.voiceChannelID)
         {
             return message.channel.send({embed:{
                 title: 'Urbu Music Control',
                 color: 0x3ca45c,
-                description: 'You aren\'t connected to a voice channel!'
+                description: 'I\'m not connected to a voice channel!'
             }})
         }
-        await message.member.voiceChannel.join();
+
+        if(message.member.voiceChannelID != message.guild.me.voiceChannelID)
+        {
+            return message.channel.send({embed:{
+                title: 'Urbu Music Control',
+                color: 0x3ca45c,
+                description: 'You aren\'t connected to my voice channel!'
+            }})
+        }
+        await message.member.voiceChannel.leave();
         return message.channel.send({embed:{
             title: 'Urbu Music Control',
             color: 0x3ca45c,
-            description: 'Successfully connected!'
+            description: 'Disconnected!'
         }})
     }
 }
