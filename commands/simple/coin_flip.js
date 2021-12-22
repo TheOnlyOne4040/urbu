@@ -1,18 +1,9 @@
-const Commando = require('discord.js-commando');
-
-class CoinFlipCommand extends Commando.Command
-{
-    constructor(client)
-    {
-        super(client,{
-            name: 'flip',
-            group: 'simple',
-            memberName: 'flip',
-            description: 'Flips a coin'
-        });
-    }
-
-    async run(message, args)
+module.exports={
+    name: 'flip',
+    group: 'simple',
+    memberName: 'flip',
+    description: 'Flips a coin',
+    async execute(message, args)
     {
         var chance = Math.floor(Math.random() * 2);
         if(chance == 0)
@@ -25,5 +16,3 @@ class CoinFlipCommand extends Commando.Command
         }
     }
 }
-
-module.exports = CoinFlipCommand
