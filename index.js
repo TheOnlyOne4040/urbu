@@ -1,10 +1,36 @@
 const discord = require('discord.js');
 const filesystem = require('fs');
+const User = require("./xp/dbObj");
 const config = require("./super secret stuff/config.json");
+const beacons = require("./obj/beacons.js")
+
 const bot = new discord.Client;
 
 bot.commands = new discord.Collection();
+bot.experiences = new discord.Collection();
 bot.queues = new discord.Collection();
+
+Reflect.defineProperty(bot.experiences, "add", {
+    value: async function add(id, amount, timestamp) {
+      const user = await bot.experiences.get(id);
+      if (user) {
+        user.addXP(Number(amount));
+        user.setLastMessageTime(timestamp);
+        return user;
+      }
+      const newUser = await User.create({ user_id: id, experience:amount, last_message_time: timestamp}).catch(beacons.error);
+      await bot.experiences.set(id, newUser);
+      return newUser;
+    },
+  });
+  Reflect.defineProperty(bot.experiences, "getExperience", {
+    value: async function getBalance(id) {
+      const user = await bot.experiences.get(id);
+      return user
+        ? user.experience
+        : await User.create({ user_id: id, experience: 0, last_message_time: new Date().toString() }).then(user => user.experience).catch(beacons.error);
+    },
+  });
 
 const commandFolders = filesystem.readdirSync("./commands");
 
@@ -33,24 +59,5 @@ for (const file of eventFiles)
         bot.on(event.name, (...args) => event.execute(...args, bot));
     }
 }
-
-/*bot.on('message', function(message){
-    if(message.content == 'Jointest')
-    {
-        message.member.send("Welcome to ***" + message.guild + "***.\nFor a list of commands, type 'help' here or '>help' in the server");
-        message.member.send("Don't forget to check the server rules!");    
-    }
-});*/
-
-bot.on("guildCreate", guild => {
-    console.log('New guild joined: ' + guild.name + ' (id: ' + guild.id + '). This guild has ' + guild.memberCount + ' members!');
-    bot.user.setActivity('Present in ' + bot.guilds.size + ' servers')
-  });
-
-bot.on("guildMemberAdd", function(member)
-{
-    member.send("Welcome to ***" + message.guild + "***.\nFor a list of commands, type 'help' here or '>help' in the server");
-    member.send("Don't forget to check the server rules!");
-});
 
 bot.login(config.token);

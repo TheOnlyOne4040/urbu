@@ -15,12 +15,8 @@ module.exports ={
             return message.reply('Invalid Number');
         else if (amount-1 < 1 || amount-1 > 100)
             return message.reply('Amount should be between 1 and 100')
-        
-        var m_embed = new Discord.RichEmbed()
-            .setTitle("Success")
-            .setColor(0x3ca45c)
         message.channel.bulkDelete(amount, true).catch(err => {
-            console.error(err);
+            beacons.error(err);
             message.channel.send('there was an error trying to prune messages in this channel!');
         }).then(messages=>{message.channel.send({
             embed:{
@@ -31,9 +27,3 @@ module.exports ={
         })})
     }
 }
-
-// `<>` <- arguments, [] <- programmatically chosen values, ()
-// dynamic help command
-// handling args msg.content.split("")[1:]
-//
-//

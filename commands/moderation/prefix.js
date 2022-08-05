@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const prefixes = require("../../obj/prefixes.json");
+const prefixes = require("../../guild_configs/prefixes.json");
 const fs = require('fs');
 
 module.exports ={
@@ -16,12 +16,12 @@ module.exports ={
             if (prefixes[i].id == message.guild.id) 
             {
                 prefixes[i].prefix = args[0];
-                fs.writeFile("./obj/prefixes.json", JSON.stringify(prefixes), function(err){if(err) throw err});
+                fs.writeFile("./guild_configs/prefixes.json", JSON.stringify(prefixes), function(err){if(err) throw err});
                 return message.channel.send({
                     embed:{
                         title:'Success',
                         color: 0x3ca45c,
-                        description: `Changed the server prefix to\`${prefixes[i].prefix}\`!`
+                        description: `Changed the server prefix to \`${prefixes[i].prefix}\`!`
                 }})
             }
         }

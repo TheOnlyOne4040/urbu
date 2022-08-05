@@ -1,6 +1,7 @@
 const discord = require("discord.js");
-const prefixes = require("../obj/prefixes.json");
+const prefixes = require("../guild_configs/prefixes.json");
 const beacons = require("../obj/beacons.js")
+const User = require("../xp/dbObj.js")
 
 module.exports ={
     name: "message",
@@ -17,8 +18,21 @@ module.exports ={
         });
         else if (message.content.toLowerCase() == "help")
         {
-            message.channel.send("help command not yet implemented")
+            return message.channel.send("help command not yet implemented")
         }
+
+        /*let user = await User.findOne({
+            where:{user_id:message.author.id}
+        });
+        if(!user) user = bot.experiences.add(message.author.id, 0, message.createdTimestamp);
+        else{
+            const ms = message.createdTimestamp - user.last_message_time
+            if(ms > 2000)
+            {
+                const experience = Math.floor(Math.random() * 3) + 1;
+                bot.experiences.add(message.author.id, experience, message.createdTimestamp);
+            }
+        }*/
 
         let prefix = (prefixes.find(guild => guild.id == message.guild.id)).prefix
         if (!message.content.startsWith(prefix)) return;
