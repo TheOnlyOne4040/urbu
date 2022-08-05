@@ -18,10 +18,10 @@ module.exports={
         randint = Math.floor(Math.random() * dif)
         inrange = randint + lower
 
-        beacons.debug(lower)
-        beacons.debug(higher)
-        beacons.debug(dif)
-        beacons.debug(randint)
-        beacons.debug(inrange)
+        return message.channel.send({
+            embed:{
+                title: inrange,
+                color: 0x3ca45c,
+        }})
     }
 }
