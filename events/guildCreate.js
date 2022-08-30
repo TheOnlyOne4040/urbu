@@ -15,6 +15,6 @@ module.exports = {
 
         newConf = {"id":`${guild.id}`,"prefix":">"}
         prefixes[prefixes.length] = newConf
-        fs.writeFile("./obj/prefixes.json", JSON.stringify(prefixes), function(err){if(err) beacons.error(err)});
+        fs.writeFile("./guild_configs/prefixes.json", JSON.stringify(prefixes), function(err){if(err) beacons.error(err)});
     }
 }

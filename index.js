@@ -3,6 +3,9 @@ const filesystem = require('fs');
 const User = require("./xp/dbObj");
 const config = require("./super secret stuff/config.json");
 const beacons = require("./obj/beacons.js")
+const SQLite = require("better-sqlite3");
+const { exceptions } = require('winston');
+const sql = new SQLite("./guild_configs/uservalues.sqlite");
 
 const bot = new discord.Client;
 
@@ -10,27 +13,10 @@ bot.commands = new discord.Collection();
 bot.experiences = new discord.Collection();
 bot.queues = new discord.Collection();
 
-Reflect.defineProperty(bot.experiences, "add", {
-    value: async function add(id, amount, timestamp) {
-      const user = await bot.experiences.get(id);
-      if (user) {
-        user.addXP(Number(amount));
-        user.setLastMessageTime(timestamp);
-        return user;
-      }
-      const newUser = await User.create({ user_id: id, experience:amount, last_message_time: timestamp}).catch(beacons.error);
-      await bot.experiences.set(id, newUser);
-      return newUser;
-    },
-  });
-  Reflect.defineProperty(bot.experiences, "getExperience", {
-    value: async function getBalance(id) {
-      const user = await bot.experiences.get(id);
-      return user
-        ? user.experience
-        : await User.create({ user_id: id, experience: 0, last_message_time: new Date().toString() }).then(user => user.experience).catch(beacons.error);
-    },
-  });
+try{
+  getvals = sql.prepare("SELECT * FROM uservalues WHERE user = ? AND guild = ?");
+  setvals = sql.prepare("INSERT OR REPLACE INTO uservalues (id, user, guild, balance, xp, level) VALUES (@id, @user, @guild, @balance, @xp, @level);");
+}catch(e){beacons.error(e)}
 
 const commandFolders = filesystem.readdirSync("./commands");
 

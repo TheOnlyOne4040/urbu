@@ -11,6 +11,8 @@ module.exports ={
     guildOnly: true,
     async execute(message, args)
     {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return;
+
         for (var i = 0; i < welcomes.length; i++) 
         {
             if (welcomes[i].id == message.guild.id) 

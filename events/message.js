@@ -1,7 +1,11 @@
 const discord = require("discord.js");
+const { values } = require("lodash");
 const prefixes = require("../guild_configs/prefixes.json");
-const beacons = require("../obj/beacons.js")
-const User = require("../xp/dbObj.js")
+const beacons = require("../obj/beacons.js");
+const User = require("../xp/dbObj.js");
+const SQLite = require("better-sqlite3");
+const sql = new SQLite("./guild_configs/uservalues.sqlite");
+const fs = require("fs")
 
 module.exports ={
     name: "message",
@@ -21,20 +25,38 @@ module.exports ={
             return message.channel.send("help command not yet implemented")
         }
 
-        /*let user = await User.findOne({
-            where:{user_id:message.author.id}
-        });
-        if(!user) user = bot.experiences.add(message.author.id, 0, message.createdTimestamp);
-        else{
-            const ms = message.createdTimestamp - user.last_message_time
-            if(ms > 2000)
-            {
-                const experience = Math.floor(Math.random() * 3) + 1;
-                bot.experiences.add(message.author.id, experience, message.createdTimestamp);
+        let vals;
+        if (message.guild) {
+            vals = getvals.get(message.author.id, message.guild.id);
+            if(!vals) {
+                vals = {id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, balance: 50, xp: 0, level: 1 }
             }
-        }*/
+            vals.xp++;
+            currentLevel = Math.floor(Math.sqrt(vals.xp - 10));
+            if(currentLevel < 1){currentLevel = 0;}
+            if (vals.level < currentLevel) {
+                vals.level++;
+                message.reply(`You've leveled up to level **${currentLevel}**!`)
+            }
+            var randomint = Math.floor(Math.random() * 50);
+            if(randomint == 1){
+                let walletvalue = randomValue()
+                message.reply(`you found $${walletvalue} in this channel!`)
+                vals.balance += walletvalue
+            }
+            setvals.run(vals)
+        }
 
-        let prefix = (prefixes.find(guild => guild.id == message.guild.id)).prefix
+        try{prefix = (prefixes.find(guild => guild.id == message.guild.id)).prefix}
+        catch{
+            beacons.debug(prefixes)
+            newConf = {"id":`${message.guild.id}`,"prefix":">"};
+            prefixes[prefixes.length] = newConf
+            beacons.debug(prefixes)
+            beacons.debug(JSON.stringify(prefixes))
+            fs.writeFileSync("./guild_configs/prefixes.json", JSON.stringify(prefixes), function(err){if(err) beacons.error(err)});
+            prefix = ">"
+        }
         if (!message.content.startsWith(prefix)) return;
 
         const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -66,4 +88,33 @@ module.exports ={
             beacons.error(e)
         })
     }
+}
+
+function randomValue(){
+    let value1 = Math.floor(Math.random() * 39) + 1
+    let value2 = 0
+    switch(ran = Math.floor(Math.random() * 100)){
+        case ran < 50:
+            value2 = 0;
+            break;
+        case ran < 75:
+            value2 = 40;
+            break;
+        case ran < 88:
+            value2 = 80;
+            break;
+        case ran < 94:
+            value2 = 120;
+            break;
+        case ran < 97:
+            value2 = 160;
+            break;
+        case ran < 99:
+            value2 = 200;
+            break;
+        case ran <= 100:
+            value2 = 500;
+            break;
+    }
+    return(value1 + value2);
 }

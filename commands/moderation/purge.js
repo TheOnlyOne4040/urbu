@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const beacons = require("../../obj/beacons.js")
 
 module.exports ={
 
@@ -10,6 +11,8 @@ module.exports ={
     guildOnly: true,
     async execute(message, args)
     {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return;
+
         const amount = parseInt(args[0]) + 1;
         if (isNaN(amount))
             return message.reply('Invalid Number');
